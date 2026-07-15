@@ -1,0 +1,15 @@
+.venv-review/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.pyright/
+artifacts/
+.pyright_cache/
+.ipynb_checkpoints/
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/.vercel/
+*.tsbuildinfo
