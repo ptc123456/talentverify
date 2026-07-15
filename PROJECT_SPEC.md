@@ -139,7 +139,7 @@ The prompt must tell the model to:
 
 Directory: `frontend/`
 
-Use React + TypeScript + Vite unless the implementer finds a documented GenLayer SDK incompatibility. Pin and verify packages before coding. As of 2026-07-15, the observed npm versions are `genlayer-js@1.1.8`, `react@19.2.7`, `vite@8.1.4`, and `typescript@7.0.2`; the implementer must verify these again and use the versions that actually install and type-check.
+Use React + TypeScript + Vite unless the implementer finds a documented GenLayer SDK incompatibility. Pin and verify packages before coding. The verified release uses `genlayer-js@1.1.8`, `react@19.2.7`, `vite@8.1.4`, and `typescript@5.9.3`; TypeScript 5.9.3 is intentionally used because it satisfies the peer range required by `typescript-eslint@8.64.0` during clean Vercel installs.
 
 Use `genlayer-js` with the Studionet chain. Inspect the installed package types and official docs before implementing browser-wallet signing. Do not invent a wallet API.
 

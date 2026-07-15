@@ -23,7 +23,7 @@ We will create a Vite + React + TypeScript single-page application under a new `
 #### [NEW] [package.json](file:///E:/Genlayer-Projects/talentverify/frontend/package.json)
 Contains all exact dependencies with exact versions (`--save-exact` lock):
 *   **Production**: `react@19.2.7`, `react-dom@19.2.7`, `react-router-dom@7.18.1`, `genlayer-js@1.1.8`, `lucide-react@1.24.0`
-*   **Development**: `vite@8.1.4`, `typescript@7.0.2`, `@vitejs/plugin-react@6.0.3`, `vitest@4.1.10`, `@testing-library/react@16.3.2`, `@testing-library/jest-dom@6.9.1`, `jsdom@29.1.1`, `eslint@10.7.0`, `@eslint/js@10.0.1`, `typescript-eslint@8.64.0`, `eslint-plugin-react-hooks@7.1.1`, `eslint-plugin-react-refresh@0.5.3`, `globals@17.7.0`, `@types/react@19.2.17`, `@types/react-dom@19.2.3`, `@types/node@26.1.1`
+*   **Development**: `vite@8.1.4`, `typescript@5.9.3`, `@vitejs/plugin-react@6.0.3`, `vitest@4.1.10`, `@testing-library/react@16.3.2`, `@testing-library/jest-dom@6.9.1`, `jsdom@29.1.1`, `eslint@9.39.5`, `@eslint/js@9.39.5`, `typescript-eslint@8.64.0`, `eslint-plugin-react-hooks@7.1.1`, `eslint-plugin-react-refresh@0.5.3`, `globals@17.7.0`, `@types/react@19.2.17`, `@types/react-dom@19.2.3`, `@types/node@26.1.1`
 
 #### [NEW] [package-lock.json](file:///E:/Genlayer-Projects/talentverify/frontend/package-lock.json)
 Will be generated automatically by npm upon installation, locking exact dependency sub-trees.

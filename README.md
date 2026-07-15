@@ -9,6 +9,8 @@ TalentVerify is an evidence-backed skill attestation system built on GenLayer. I
 - **Current Status**: **DEPLOYED ON STUDIONET**
   - **Contract Address**: `0xf828Bad28f46F2FFd59C25AE3BB12148Be5c0B14`
   - **Deployment Transaction Hash**: `0xf87ff6c3ce9562d99d36ca6f36dd2b2c92792c5e9274d10017f295d55a8bab4c`
+  - **Live App**: https://talentverify-genlayer.vercel.app
+  - **GitHub**: https://github.com/ptc123456/talentverify
 
 ---
 
