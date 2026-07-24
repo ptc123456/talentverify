@@ -1,4 +1,4 @@
-# TalentVerify — Phase 1: Intelligent Contract
+# TalentVerify 
 
 TalentVerify is an evidence-backed skill attestation system built on GenLayer. It allows developers to verify their proficiency in specific programming skills based on public evidence gathered from up to three GitHub repositories.
 
