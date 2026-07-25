@@ -391,7 +391,7 @@ export const VerifyPage: React.FC = () => {
               <option value="Solidity">Solidity</option>
               <option value="Rust">Rust</option>
             </select>
-            <p className="form-helper">Select the primary programming skill to attestation.</p>
+            <p className="form-helper">Select the programming skill to evaluate against public repository evidence.</p>
             {getErrorForField('skill') && (
               <p className="form-error" id="skill-error"><AlertCircle size={14} /> {getErrorForField('skill')}</p>
             )}
@@ -413,7 +413,7 @@ export const VerifyPage: React.FC = () => {
                 aria-describedby={getErrorForField('github_username') ? 'username-error' : undefined}
               />
             </div>
-            <p className="form-helper">Your case-insensitive personal or organization profile username.</p>
+            <p className="form-helper">The username must match the owner segment in each repository URL. TalentVerify does not verify account ownership.</p>
             {getErrorForField('github_username') && (
               <p className="form-error" id="username-error"><AlertCircle size={14} /> {getErrorForField('github_username')}</p>
             )}
@@ -423,7 +423,7 @@ export const VerifyPage: React.FC = () => {
           <div className="form-group">
             <label className="form-label">GitHub Public Repository evidence (1 to 3 URLs)</label>
             <p className="form-helper" style={{ marginBottom: '10px' }}>
-              Only repositories owned by you containing code matching the claimed skill will be analyzed.
+              Submit public repositories under the entered username. The contract evaluates GitHub metadata, language totals, and relevant manifest signals; it does not verify authorship.
             </p>
 
             {/* URL 1 */}

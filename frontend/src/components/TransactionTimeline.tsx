@@ -12,7 +12,7 @@ export const TransactionTimeline: React.FC<TransactionTimelineProps> = ({ txInfo
   if (!txInfo) return null;
 
   const { hash, status, result, errorReason, isFinalized, isSuccess, validators } = txInfo;
-  const explorerUrl = `${NETWORK.explorerUrl}/transactions/${hash}`;
+  const explorerUrl = `${NETWORK.explorerUrl}/tx/${hash}`;
 
   const isState = (s: string) => status === s;
 

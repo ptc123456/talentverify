@@ -26,7 +26,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           <p style={{ fontWeight: 600 }}>TalentVerify Registry Console</p>
           <p style={{ fontSize: '0.8rem', color: 'var(--color-muted)' }}>
             Disclaimer: TalentVerify is an evidence-backed skill attestation registry operating on GenLayer Studionet (Chain ID 61999). 
-            Attestations are generated using non-deterministic AI verification of user-submitted public repository signals. 
+            Attestations are generated from non-deterministic evaluation of user-submitted public repository signals.
             TalentVerify does NOT prove real-world identity, code authorship, employment history, or absolute developer capability.
           </p>
           {contractAddr && (

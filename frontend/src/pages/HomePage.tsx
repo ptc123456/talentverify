@@ -51,7 +51,7 @@ export const HomePage: React.FC = () => {
           Decentralized Skill Attestation Registry
         </h1>
         <p style={{ fontSize: '1.15rem', color: 'var(--color-muted)', maxWidth: '800px', margin: '0 auto 24px auto', lineHeight: 1.6 }}>
-          TalentVerify is an evidence-first, AI-adjudicated verification console. We evaluate public GitHub repository signals on-chain to attest developer competency in core programming languages and frameworks.
+          TalentVerify is an evidence-backed skill attestation console. It records a GenLayer consensus verdict on whether selected public GitHub repository signals support a claimed programming skill.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <button 
@@ -102,13 +102,13 @@ export const HomePage: React.FC = () => {
             <span>How AI-Adjudication Works</span>
           </h3>
           <p style={{ fontSize: '0.9rem', color: 'var(--color-muted)', marginBottom: '12px', lineHeight: 1.6 }}>
-            Rather than relying on central authorities or manual resume reviews, TalentVerify uses GenLayer 
+            Rather than relying on one private reviewer or AI service, TalentVerify uses GenLayer{' '}
             <strong> Intelligent Contracts</strong>. When a verification is requested:
           </p>
           <ul style={{ fontSize: '0.9rem', color: 'var(--color-muted)', paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px', lineHeight: 1.6 }}>
-            <li><strong>Submission:</strong> The developer submits their claimed skill and up to 3 GitHub repository URLs.</li>
-            <li><strong>AI Consensus:</strong> Multiple LLM validators independently execute code checks and analyze the codebase evidence against the target skill.</li>
-            <li><strong>Optimistic Democracy:</strong> The on-chain consensus engine determines if the majority of validators agree, recording the finalized verdict and raw reasoning on-chain.</li>
+            <li><strong>Submission:</strong> A wallet submits a claimed skill, a GitHub username, and up to 3 public repository URLs.</li>
+            <li><strong>Evidence review:</strong> The Intelligent Contract fetches repository metadata, language totals, and relevant manifest signals, then asks the leader and validators to evaluate the same evidence independently.</li>
+            <li><strong>Consensus:</strong> GenLayer accepts the leader result only when validators agree on the verdict, then records the finalized verdict, reason, and evidence summary on-chain.</li>
           </ul>
         </div>
 
@@ -124,8 +124,7 @@ export const HomePage: React.FC = () => {
             ))}
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--color-muted)', lineHeight: 1.6 }}>
-            Only public repositories matching the target language or framework codebase structure will be accepted. 
-            Code in forks, boilerplate repos, empty files, or templates is considered weak evidence.
+            Any valid public GitHub repository URL under the entered username can be submitted. Forks, archived projects, missing manifests, and weak language signals can reduce the strength of the resulting verdict.
           </p>
         </div>
       </div>
