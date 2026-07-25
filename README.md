@@ -154,7 +154,7 @@ py -3.12 -m venv .venv-review
 
 ## Verification commands
 
-The latest local verification completed successfully with **49 Python contract tests** and **78 frontend tests**.
+The latest local verification completed successfully with **49 Python contract tests** and **82 frontend tests**.
 
 ```powershell
 # Contract compilation and Direct Mode tests

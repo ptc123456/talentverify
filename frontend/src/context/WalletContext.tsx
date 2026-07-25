@@ -2,8 +2,40 @@ import React, { createContext, useState, useEffect, useCallback, ReactNode } fro
 import { getConnectedClient, GenLayerClientType } from '../lib/genlayer';
 import { NETWORK } from '../config/network';
 
-function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
+function errorMessage(error: unknown, seen = new WeakSet<object>()): string {
+  if (typeof error === 'string' && error.trim()) return error;
+  if (error instanceof Error && error.message) return error.message;
+
+  if (typeof error === 'object' && error !== null) {
+    if (seen.has(error)) return 'Unknown wallet error';
+    seen.add(error);
+
+    const record = error as Record<string, unknown>;
+    for (const key of ['shortMessage', 'message', 'details', 'reason']) {
+      if (typeof record[key] === 'string' && record[key].trim()) {
+        return record[key];
+      }
+    }
+    for (const key of ['data', 'cause', 'error']) {
+      if (record[key] !== undefined) {
+        const nested = errorMessage(record[key], seen);
+        if (nested !== 'Unknown wallet error') return nested;
+      }
+    }
+  }
+
+  return 'Unknown wallet error';
+}
+
+function errorCode(error: unknown): number | undefined {
+  if (typeof error !== 'object' || error === null) return undefined;
+  const record = error as Record<string, unknown>;
+  const directCode = record.code;
+  if (typeof directCode === 'number') return directCode;
+  if (typeof directCode === 'string' && /^-?\d+$/.test(directCode)) {
+    return Number(directCode);
+  }
+  return errorCode(record.data) ?? errorCode(record.cause) ?? errorCode(record.error);
 }
 
 export type WalletStatus =
@@ -44,9 +76,16 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const targetChainIdDec = NETWORK.chainId;
     const targetChainIdHex = `0x${targetChainIdDec.toString(16)}`;
 
+    const readChainId = async (): Promise<number> => {
+      const value = await provider.request({ method: 'eth_chainId' });
+      if (typeof value !== 'string' || !/^0x[0-9a-fA-F]+$/.test(value)) {
+        throw new Error('Wallet returned an invalid chain ID');
+      }
+      return parseInt(value, 16);
+    };
+
     try {
-      const currentChainIdHex = await provider.request({ method: 'eth_chainId' });
-      const currentChainId = parseInt(currentChainIdHex as string, 16);
+      const currentChainId = await readChainId();
       setChainId(currentChainId);
 
       if (currentChainId === targetChainIdDec) {
@@ -62,10 +101,7 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setChainId(targetChainIdDec);
         return true;
       } catch (switchError: unknown) {
-        const switchCode = typeof switchError === 'object' && switchError !== null &&
-          'code' in switchError && typeof switchError.code === 'number'
-          ? switchError.code
-          : undefined;
+        const switchCode = errorCode(switchError);
         // If chain is not added (error code 4902), add it
         if (switchCode === 4902) {
           try {
@@ -85,18 +121,42 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
                 },
               ],
             });
-            setChainId(targetChainIdDec);
-            return true;
+
+            await provider.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: targetChainIdHex }],
+            });
           } catch (addError: unknown) {
             setError(`Failed to add network: ${errorMessage(addError)}`);
-            setStatus('wrong_network');
+            setStatus(errorCode(addError) === 4001 ? 'permission_rejected' : 'wrong_network');
             return false;
           }
+        } else {
+          setError(`Failed to switch network: ${errorMessage(switchError)}`);
+          setStatus(switchCode === 4001 ? 'permission_rejected' : 'wrong_network');
+          return false;
         }
-        setError(`Failed to switch network: ${errorMessage(switchError)}`);
+
+        const activeChainId = await readChainId();
+        setChainId(activeChainId);
+        if (activeChainId !== targetChainIdDec) {
+          setError(`Wallet remained on chain ${activeChainId}; expected GenLayer Studionet (${targetChainIdDec}).`);
+          setStatus('wrong_network');
+          return false;
+        }
+
+        return true;
+      }
+
+      const activeChainId = await readChainId();
+      setChainId(activeChainId);
+      if (activeChainId !== targetChainIdDec) {
+        setError(`Wallet remained on chain ${activeChainId}; expected GenLayer Studionet (${targetChainIdDec}).`);
         setStatus('wrong_network');
         return false;
       }
+
+      return true;
     } catch (err: unknown) {
       setError(`Network check failed: ${errorMessage(err)}`);
       setStatus('wrong_network');
@@ -112,9 +172,7 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     if (!netOk) return;
 
     try {
-      const connectedClient = getConnectedClient(selectedAddress);
-      // Verify chain switching succeeds inside SDK
-      await connectedClient.connect('studionet');
+      const connectedClient = getConnectedClient(selectedAddress, provider);
 
       setAddress(selectedAddress);
       setClient(connectedClient);

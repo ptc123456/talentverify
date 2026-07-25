@@ -19,13 +19,14 @@ export const readClient = createClient({
 });
 
 // Helper to create a dynamic client with wallet address for writes
-export function getConnectedClient(walletAddress: string) {
+export function getConnectedClient(walletAddress: string, provider?: EIP1193Provider) {
   if (!/^0x[0-9a-fA-F]{40}$/.test(walletAddress)) {
     throw new Error(`Invalid wallet address: ${walletAddress}`);
   }
   return createClient({
     chain: studionet,
     account: walletAddress as `0x${string}`,
+    provider: provider as NonNullable<Parameters<typeof createClient>[0]>['provider'],
   });
 }
 
